@@ -1,7 +1,12 @@
 package main
 
 import "net/http"
+import "os"
 
 func main() {
-    http.ListenAndServe(":8080", http.FileServer(http.Dir(".")))
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080"
+    }
+    http.ListenAndServe(":" + port, http.FileServer(http.Dir(".")))
 }
