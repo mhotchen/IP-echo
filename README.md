@@ -8,8 +8,15 @@ Supports sitting behind proxies using the `X-Forwarded-For` header.
 It will reply to all HTTP requests with the origin IP (or the first IP in `X-Forwarded-For` if it's set), as well as print the ip address to stdout for logging, debugging, or whatever you fancy. Eg.
 
 ```
-curl localhost 8080
+$ curl localhost:8080
     127.0.0.1
+```
+
+It also has IPv6 support:
+
+```
+$ curl localhost:8080
+    [::1]
 ```
 
 Usage
