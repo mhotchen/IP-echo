@@ -1,0 +1,50 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:        ip-echo
+# Required-Start:  $network $remote_fs $syslog
+# Required-Stop:   $network $remote_fs $syslog
+# Default-Start:   2 3 4 5
+# Default-Stop: 
+# Short-Description: Start ip-echo daemon
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+. /lib/lsb/init-functions
+
+DAEMON=/usr/sbin/ip-echo
+USER=ip-echo
+PORT=8080
+LOG_FILE=/var/log/ip-echo.log
+
+test -x $DAEMON || exit 5
+
+if [ -r /etc/default/ip-echo ]; then
+	. /etc/default/ip-echo
+fi
+
+case $1 in
+	start)
+		log_daemon_msg "Starting ip-echo service" "ip-echo"
+  		PORT=$PORT start-stop-daemon --start --quiet --oknodo --background --chuid $USER --no-close --exec $DAEMON | while read line; do echo "[$(date --rfc-3339=seconds)] $line"; done > $LOG_FILE 2>&1 &
+		status=$?
+		log_end_msg $status
+  		;;
+	stop)
+		log_daemon_msg "Stopping ip-echo server" "ip-echo"
+  		start-stop-daemon --stop --quiet --oknodo --user $USER --exec $DAEMON
+		log_end_msg $?
+		rm -f $PIDFILE
+  		;;
+	restart|force-reload)
+		$0 stop && sleep 2 && $0 start
+  		;;
+	status)
+		status_of_proc $DAEMON "ip-echo service"
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|force-reload|status}"
+		exit 2
+		;;
+esac
