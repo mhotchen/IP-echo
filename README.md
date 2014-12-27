@@ -5,12 +5,28 @@ Super simple HTTP service to echo the request's IP address as the HTTP response 
 
 Supports sitting behind proxies using the `X-Forwarded-For` header.
 
+It will reply to all HTTP requests with the origin IP (or the first IP in `X-Forwarded-For` if it's set), as well as print the ip address to stdout for logging, debugging, or whatever you fancy. Eg.
+
+```
+curl localhost 8080
+    127.0.0.1
+```
+
 Usage
 -----
 
-Run the `ip-echo` binary file, or you can use go to build it yourself, simply run `go build -o ip-echo`, then run it.
+Install golang then compile:
 
-It will reply to all HTTP requests with the origin IP (or the first IP in `X-Forwarded-For` if it's set), as well as print the ip address to stdout for logging, debugging, or whatever you fancy.
+```
+$ sudo apt-get install golang
+$ go build -o ip-echo
+```
+
+This creates a binary at `./ip-echo`. To run the service:
+
+```
+$ ./ip-echo
+```
 
 Configuring
 -----------
