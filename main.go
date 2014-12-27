@@ -20,7 +20,7 @@ func IpResponse(response http.ResponseWriter, request *http.Request) {
         ip = request.RemoteAddr
     }
 
-    colonPosition := strings.Index(ip, ":")
+    colonPosition := strings.LastIndex(ip, ":")
     if colonPosition > -1 {
         ip = ip[:colonPosition]
     }
