@@ -27,7 +27,7 @@ fi
 case $1 in
 	start)
 		log_daemon_msg "Starting ip-echo service" "ip-echo"
-  		PORT=$PORT start-stop-daemon --start --quiet --oknodo --background --chuid $USER --no-close --exec $DAEMON | while read line; do echo "[$(date --rfc-3339=seconds)] $line"; done > $LOG_FILE 2>&1 &
+  		PORT=$PORT start-stop-daemon --start --quiet --oknodo --background --chuid $USER --no-close --exec $DAEMON | while read line; do echo "[$(date --rfc-3339=seconds)] $line"; done >> $LOG_FILE 2>&1 &
 		status=$?
 		log_end_msg $status
   		;;
