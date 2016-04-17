@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo the user's IP address back at them
+After=network.target
+
+[Service]
+PIDFile=/run/ip-echo.pid
+ExecStart=/usr/sbin/ip-echo
+
+[Install]
+WantedBy=multi-user.target
